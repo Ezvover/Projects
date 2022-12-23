@@ -1,0 +1,15 @@
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\bin\Debug\net7.0\Minesweeper.exe
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\bin\Debug\net7.0\Minesweeper.deps.json
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\bin\Debug\net7.0\Minesweeper.runtimeconfig.json
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\bin\Debug\net7.0\Minesweeper.dll
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\bin\Debug\net7.0\Minesweeper.pdb
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.csproj.AssemblyReference.cache
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.AssemblyInfoInputs.cache
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.AssemblyInfo.cs
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.csproj.CoreCompileInputs.cache
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.dll
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\refint\Minesweeper.dll
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.pdb
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\Minesweeper.genruntimeconfig.cache
+C:\Users\Vover\Desktop\task\Minesweeper\Minesweeper\obj\Debug\net7.0\ref\Minesweeper.dll
