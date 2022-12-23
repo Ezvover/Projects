@@ -109,6 +109,11 @@ namespace minesweeper
             Console.WriteLine("Введите координаты первого хода");
             int numberX = int.Parse(Console.ReadLine());
             int numberY = int.Parse(Console.ReadLine());
+            if (numberX <= 0 || numberY <= 0)
+            {
+                Console.WriteLine("Значения должны быть больше нуля");
+                AfterStart();
+            }
             cells = new Cell[n, m];
             RandCell(numberX, numberY);
             cells[numberX, numberY].IsVisiable = true;
