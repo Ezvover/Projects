@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using static Plane.Program;
 
 namespace Plane
 {
@@ -43,26 +45,13 @@ namespace Plane
                 set { enemyCol = value; }
             }
 
-            private int cellX = 0;
-            public int CellX
-            {
-                get { return cellX; }
-                set { cellX = value; }
-            }
-
-            private int cellY = 0;
-            public int CellY
-            {
-                get { return cellY; }
-                set { cellY = value; }
-            }
-
-
             private int amount;
 
             private int result;
 
             private char[,] cells;
+
+            Plane plane;
 
             public void ChooseDifficulty()
             {
@@ -162,81 +151,12 @@ namespace Plane
                 enemyCol = rand.Next(0, m - 1);
                 cells[0, enemyCol] = '-';
             }
-
             public void CreatePlane()
             {
-                cellX = n - 1;
-                cellY = 9;
-                cells[cellX, cellY] = '+' ;
-            }
-
-            public void Move()
-            {
-                ConsoleKeyInfo keyinfo;
-                keyinfo = Console.ReadKey();
-                Console.WriteLine("\n");
-                cells[cellX, cellY] = 'o';
-                if (keyinfo.Key == ConsoleKey.LeftArrow)
-                {
-                    if (cells[cellX, cellY - 1] == 'o')
-                    {
-                        cellY = cellY - 1;
-                        cells[cellX, cellY] = '+';
-                    }
-                    else
-                    {
-                        Loser();
-                    }
-                }
-                if (keyinfo.Key == ConsoleKey.RightArrow)
-                {
-                    if (cells[cellX, cellY + 1] == 'o')
-                    {
-                        cellY = cellY + 1;
-                        cells[cellX, cellY] = '+';
-                    }
-                    else
-                    {
-                        Loser();
-                    }
-                }
-                if (keyinfo.Key == ConsoleKey.UpArrow)
-                {
-                    if (cells[cellX - 1, cellY] == 'o')
-                    {
-                        cellX = cellX - 1;
-                        cells[cellX, cellY] = '+';
-                    }
-                    else
-                    {
-                        Loser();
-                    }
-                }
-                if (keyinfo.Key == ConsoleKey.DownArrow)
-                {
-                    if (cellX < n-1)
-                    {
-                        if (cells[cellX + 1, cellY] == 'o')
-                        {
-                            cellX = cellX + 1;
-                            cells[cellX, cellY] = '+';
-                        }
-                        else
-                        {
-                            Loser();
-                        }
-                    }
-                    else if (cellX >= n - 1)
-                    {
-                        Console.WriteLine("Нельзя покидать поле боя");
-                        Move();
-                    }
-                }
-                if (keyinfo.Key == ConsoleKey.Spacebar)
-                {
-                    Shoot();
-                    cells[cellX, cellY] = '+';
-                }
+                /*plane.CellX = n - 1;
+                plane.CellY = 9;*/
+                plane = new Plane(n / 2, m / 2);
+                cells[n /2 , m / 2] = '+';
             }
 
             public void Loser()
@@ -265,25 +185,9 @@ namespace Plane
                 }
             }
 
-            public void Shoot()
-            {
-                for (int i = 0; i < m -1; i++)
-                {
-                    if (cells[i, cellY] == '-')
-                    {
-                        Console.WriteLine("Вы попали!");
-                        cells[i, cellY] = 'o';
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-
             public void Step()
             {
-                cells[cellX, cellY] = 'o';
+                cells[plane.CellX, plane.CellY] = 'o';
                 for (int i = 0; i < m - 1; i++)
                 {
                     cells[n - 1, i] = 'o';
@@ -338,24 +242,75 @@ namespace Plane
                 }
             }
 
-            /* public void ChangeColor()
-             {
-
-                 foreach (Char c in cells)
-                 {
-                     if (c == '+')
-                     {
-                         Console.ForegroundColor = System.ConsoleColor.Green;
-                     }
-                     if (c == '-')
-                     {
-                         Console.ForegroundColor = System.ConsoleColor.Red;
-                     }
-                 }
-             }*/
-
+            public void Move()
+            {
+                ConsoleKeyInfo keyinfo;
+                keyinfo = Console.ReadKey();
+                Console.WriteLine("\n");
+                cells[plane.CellX, plane.CellY] = 'o';
+                if (keyinfo.Key == ConsoleKey.Spacebar)
+                {
+                    // Shoot();
+                    cells[plane.CellX, plane.CellY] = '+';
+                }
+                else if (keyinfo.Key == ConsoleKey.LeftArrow && cells[plane.CellX, plane.CellY - 1] == 'o')
+                {
+                    plane.SetXY(plane.CellX, plane.CellY - 1);
+                    cells[plane.CellX, plane.CellY] = '+';
+                }
+                else if (keyinfo.Key == ConsoleKey.RightArrow && cells[plane.CellX, plane.CellY + 1] == 'o')
+                {
+                    plane.SetXY(plane.CellX, plane.CellY + 1);
+                    cells[plane.CellX, plane.CellY] = '+';
+                }
+                else if (keyinfo.Key == ConsoleKey.UpArrow && cells[plane.CellX - 1, plane.CellY] == 'o')
+                {
+                    plane.SetXY(plane.CellX - 1, plane.CellY);
+                    cells[plane.CellX, plane.CellY] = '+';
+                }
+                else if (keyinfo.Key == ConsoleKey.DownArrow && cells[plane.CellX + 1, plane.CellY] == 'o')
+                {
+                    plane.SetXY(plane.CellX + 1, plane.CellY);
+                    cells[plane.CellX, plane.CellY] = '+';
+                }
+                else
+                {
+                    Loser();
+                }
+            }
         }
 
+        public class Plane
+        { 
+            public Plane(int x, int y)
+            {
+                cellX = x;
+                cellY = y;
+            }
+
+            private int cellX = 0;
+            public int CellX
+            {
+                get { return cellX; }
+            }
+
+            private int cellY = 0;
+            public int CellY
+            {
+                get { return cellY; }
+            }
+
+            public void SetXY(int x, int y)
+            {
+                cellX = x;
+                cellY = y;
+            }
+        }
+
+        public class Enemy
+        {
+
+        }
 
         static void Main(string[] args)
         {
