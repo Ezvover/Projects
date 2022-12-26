@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using static Plane.Program;
@@ -53,6 +54,7 @@ namespace Plane
 
             Plane plane;
 
+            private List<Bullet> bullets = new List<Bullet>();
             public void ChooseDifficulty()
             {
                 Console.WriteLine("Выберите уровень сложности: \n1. Легкий\n2. Нормальный\n3. Сложный\n4. Особый");
@@ -123,6 +125,10 @@ namespace Plane
 
             public void ShowField()
             {
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    cells[bullets[i].X, bullets[i].Y] = '.';
+                }
                 for (int k = 0; k < m + 2; k++)
                 {
                     Console.Write("*");
@@ -251,6 +257,7 @@ namespace Plane
                 if (keyinfo.Key == ConsoleKey.Spacebar)
                 {
                     // Shoot();
+                    bullets.Add(new Bullet(plane.CellX - 1, plane.CellY, true));
                     cells[plane.CellX, plane.CellY] = '+';
                 }
                 else if (keyinfo.Key == ConsoleKey.LeftArrow && cells[plane.CellX, plane.CellY - 1] == 'o')
@@ -278,6 +285,25 @@ namespace Plane
                     Loser();
                 }
             }
+            public void Shoot()
+            {
+                /*for (int i = 0; i < m - 1; i++)
+                {
+                    if (cells[i, cellY] == '-')
+                    {
+                        Console.WriteLine("Вы попали!");
+                        cells[i, cellY] = 'o';
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }*/
+
+                cells[plane.CellX - 1, plane.CellY] = '.';
+            }
+
+
         }
 
         public class Plane
@@ -304,6 +330,46 @@ namespace Plane
             {
                 cellX = x;
                 cellY = y;
+            }
+        }
+
+        public class Bullet
+        {
+            public Bullet(int x, int y, bool vector)
+            {
+                this.x = x;
+                this.y = y;
+                this.vector = vector;
+            }
+
+            private int x;
+            public int X
+            {
+                get { return x; }
+            }
+
+            private int y;
+            public int Y
+            {
+                get { return y; }
+            }
+
+            private bool vector;  // if 1 - plane, if 0 - enemy
+
+            public void SetXY(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+                // this.vector = vector;
+            }
+
+            public void ToUp()
+            {
+                --x;
+            }
+            public void ToDown()
+            {
+                x += 2;
             }
         }
 
