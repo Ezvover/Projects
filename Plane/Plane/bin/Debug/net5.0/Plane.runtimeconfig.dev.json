@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Vover\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Vover\\.nuget\\packages"
+    ]
+  }
+}

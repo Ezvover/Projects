@@ -1,0 +1,15 @@
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.csproj.AssemblyReference.cache
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.AssemblyInfoInputs.cache
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.AssemblyInfo.cs
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.csproj.CoreCompileInputs.cache
+C:\Users\Vover\Desktop\task\Plane\Plane\bin\Debug\net7.0\Plane.exe
+C:\Users\Vover\Desktop\task\Plane\Plane\bin\Debug\net7.0\Plane.deps.json
+C:\Users\Vover\Desktop\task\Plane\Plane\bin\Debug\net7.0\Plane.runtimeconfig.json
+C:\Users\Vover\Desktop\task\Plane\Plane\bin\Debug\net7.0\Plane.dll
+C:\Users\Vover\Desktop\task\Plane\Plane\bin\Debug\net7.0\Plane.pdb
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.dll
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\refint\Plane.dll
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.pdb
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\Plane.genruntimeconfig.cache
+C:\Users\Vover\Desktop\task\Plane\Plane\obj\Debug\net7.0\ref\Plane.dll
