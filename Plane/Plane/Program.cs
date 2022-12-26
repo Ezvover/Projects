@@ -125,6 +125,7 @@ namespace Plane
             {
                 CreateField();
                 CreatePlane();
+                ShowField();
                 while (true)
                 {
                     Step();
@@ -158,7 +159,7 @@ namespace Plane
             public void EnemyFabric()
             {
                 Random rand = new Random();
-                enemyCol = rand.Next(0, m);
+                enemyCol = rand.Next(0, m - 1);
                 cells[0, enemyCol] = '-';
             }
 
@@ -282,16 +283,25 @@ namespace Plane
 
             public void Step()
             {
-                for (int i = 0; i < n - 1; i++)
+                cells[cellX, cellY] = 'o';
+                for (int i = 0; i < m - 1; i++)
                 {
-                    for (int j = 0; j < m - 1; j++)
+                    cells[n - 1, i] = 'o';
+                }
+                for (int i = n - 1; i > 0; --i)
+                {
+                    for (int j = m - 1; j > 0; --j)
                     {
-                        // cells[i, j + 1] = cells[i, j]; степ ломается
+                        if (cells[i - 1, j] == '-')
+                        {
+                            cells[i, j] = cells[i - 1, j];
+                            cells[i - 1, j] = 'o';
+                        }
                     }
                 }
                 EnemyFabric();
-                ShowField();
                 Move();
+                ShowField();
                 amount++;
             }
             public void Start()
