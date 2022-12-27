@@ -22,7 +22,7 @@ namespace Plane
         /// 
 
 
-
+        // дописать буллеты, движение, убийство энеми все должно быть в классе
         public class Game
         {
             private int n = 0;
@@ -55,6 +55,7 @@ namespace Plane
             Plane plane;
 
             private List<Bullet> bullets = new List<Bullet>();
+            private List<Enemy> enemys = new List<Enemy>();
             public void ChooseDifficulty()
             {
                 Console.WriteLine("Выберите уровень сложности: \n1. Легкий\n2. Нормальный\n3. Сложный\n4. Особый");
@@ -128,6 +129,15 @@ namespace Plane
                 for (int i = 0; i < bullets.Count; i++)
                 {
                     cells[bullets[i].X, bullets[i].Y] = '.';
+                    if (cells[bullets[i].X, bullets[i].Y] == '-')
+                    {
+                        cells[bullets[i].X, bullets[i].Y] = 'o';
+                        bullets.Remove(bullets[i]);
+                    }
+                }
+                for (int i = 0; i < enemys.Count; i++)
+                {
+                    cells[enemys[i].X, enemys[i].Y] = '-';
                 }
                 for (int k = 0; k < m + 2; k++)
                 {
@@ -139,7 +149,20 @@ namespace Plane
                     Console.Write("*");
                     for (int j = 0; j < m; j++)
                     {
+                        if (cells[i, j] == '-')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else if (cells[i, j] == '.')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if (cells[i, j] == '+')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
                         Console.Write(cells[i, j]);
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     Console.Write("*");
                     Console.WriteLine();
@@ -155,7 +178,8 @@ namespace Plane
             {
                 Random rand = new Random();
                 enemyCol = rand.Next(0, m - 1);
-                cells[0, enemyCol] = '-';
+                // cells[0, enemyCol] = '-';
+                enemys.Add(new Enemy(0, enemyCol));
             }
             public void CreatePlane()
             {
@@ -193,12 +217,33 @@ namespace Plane
 
             public void Step()
             {
+                // цикл который проходит опо всем буллетам. если трув, то вызывается туап, если фалс, то даун
                 cells[plane.CellX, plane.CellY] = 'o';
-                for (int i = 0; i < m - 1; i++)
+                for (int i = 0; i < bullets.Count; i++)
                 {
-                    cells[n - 1, i] = 'o';
+                    if (bullets[i].vector)
+                    {
+                        if (!bullets[i].ToUp())
+                        {
+                            bullets.Remove(bullets[i]);
+                        }
+                        else if (cells[bullets[i].X, bullets[i].Y] == '-' )
+                        {
+                            cells[bullets[i].X, bullets[i].Y] = 'o';
+                            bullets.Remove(bullets[i]);
+                        }
+                        else if (bullets[i].X > 0 && cells[bullets[i].X - 1, bullets[i].Y] == '-')
+                        {
+                            cells[bullets[i].X - 1, bullets[i].Y] = 'o';
+                            bullets.Remove(bullets[i]);
+                        }
+                    }
+                    else
+                    {
+                        bullets[i].ToDown();
+                    }
                 }
-                for (int i = n - 1; i > 0; --i)
+                /*for (int i = n - 1; i > 0; --i)
                 {
                     for (int j = m - 1; j > 0; --j)
                     {
@@ -207,13 +252,30 @@ namespace Plane
                             cells[i, j] = cells[i - 1, j];
                             cells[i - 1, j] = 'o';
                         }
+                        if (cells[i, j] == '.')
+                        {
+                            cells[i, j] = 'o';
+                        }
                     }
+                }*/
+                for (int i =0; i < n - 1; i++)
+                {
+                    for (int j = 0; i < j; j++)
+                    {
+                        cells[i, j] = 'o';
+                    }
+                }
+                for (int i = 0; i < m - 1; i++)
+                {
+                    cells[0, i] = 'o';
+                    cells[n - 1, i] = 'o';
                 }
                 EnemyFabric();
                 Move();
                 ShowField();
                 amount++;
             }
+
             public void Start()
             {
                 Console.WriteLine("Выберите действие: \n1. Запуск игры\n2. Просмотр рекорда\n");
@@ -253,29 +315,35 @@ namespace Plane
                 ConsoleKeyInfo keyinfo;
                 keyinfo = Console.ReadKey();
                 Console.WriteLine("\n");
-                cells[plane.CellX, plane.CellY] = 'o';
                 if (keyinfo.Key == ConsoleKey.Spacebar)
                 {
                     // Shoot();
-                    bullets.Add(new Bullet(plane.CellX - 1, plane.CellY, true));
-                    cells[plane.CellX, plane.CellY] = '+';
+                    if (cells[plane.CellX, plane.CellY].Equals('-'))
+                    {
+                        cells[plane.CellX, plane.CellY] = '+';
+                    }
+                    else
+                    {
+                        bullets.Add(new Bullet(plane.CellX - 1, plane.CellY, true));
+                        cells[plane.CellX, plane.CellY] = '+';
+                    }
                 }
-                else if (keyinfo.Key == ConsoleKey.LeftArrow && cells[plane.CellX, plane.CellY - 1] == 'o')
+                else if (keyinfo.Key == ConsoleKey.LeftArrow && plane.CellY > 0 && cells[plane.CellX, plane.CellY - 1] == 'o')
                 {
                     plane.SetXY(plane.CellX, plane.CellY - 1);
                     cells[plane.CellX, plane.CellY] = '+';
                 }
-                else if (keyinfo.Key == ConsoleKey.RightArrow && cells[plane.CellX, plane.CellY + 1] == 'o')
+                else if (keyinfo.Key == ConsoleKey.RightArrow && plane.CellY < m - 1 && cells[plane.CellX, plane.CellY + 1] == 'o')
                 {
                     plane.SetXY(plane.CellX, plane.CellY + 1);
                     cells[plane.CellX, plane.CellY] = '+';
                 }
-                else if (keyinfo.Key == ConsoleKey.UpArrow && cells[plane.CellX - 1, plane.CellY] == 'o')
+                else if (keyinfo.Key == ConsoleKey.UpArrow && plane.CellX > 0 && cells[plane.CellX - 1, plane.CellY] == 'o')
                 {
                     plane.SetXY(plane.CellX - 1, plane.CellY);
                     cells[plane.CellX, plane.CellY] = '+';
                 }
-                else if (keyinfo.Key == ConsoleKey.DownArrow && cells[plane.CellX + 1, plane.CellY] == 'o')
+                else if (keyinfo.Key == ConsoleKey.DownArrow && plane.CellX < n - 1 && cells[plane.CellX + 1, plane.CellY] == 'o')
                 {
                     plane.SetXY(plane.CellX + 1, plane.CellY);
                     cells[plane.CellX, plane.CellY] = '+';
@@ -299,6 +367,8 @@ namespace Plane
                         continue;
                     }
                 }*/
+
+
 
                 cells[plane.CellX - 1, plane.CellY] = '.';
             }
@@ -354,7 +424,7 @@ namespace Plane
                 get { return y; }
             }
 
-            private bool vector;  // if 1 - plane, if 0 - enemy
+            public bool vector;  // if 1 - plane, if 0 - enemy
 
             public void SetXY(int x, int y)
             {
@@ -363,9 +433,17 @@ namespace Plane
                 // this.vector = vector;
             }
 
-            public void ToUp()
+            public bool ToUp()
             {
-                --x;
+                if (x - 1 > -1)
+                {
+                    --x;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             public void ToDown()
             {
@@ -373,9 +451,28 @@ namespace Plane
             }
         }
 
+        // создать карту врагов по подобию карте бомбю, враги с шансом 10 процентов стреляют 
         public class Enemy
         {
+            public Enemy(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
 
+            private int x;
+            public int X
+            {
+                get { return x; }
+                set { x = value; }
+            }
+
+            private int y;
+            public int Y
+            {
+                get { return y; }
+                set { y = value; }
+            }
         }
 
         static void Main(string[] args)
